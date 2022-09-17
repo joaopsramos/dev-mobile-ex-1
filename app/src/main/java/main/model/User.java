@@ -39,6 +39,10 @@ public class User {
     }
 
     public static User login(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            return null;
+        }
+
         return users.stream()
                 .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
                 .findAny()
@@ -50,12 +54,20 @@ public class User {
         return users;
     }
 
+    public static User getUserById(int id) {
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findAny()
+                .orElse(null);
+    }
+
     public static List<User> createUsers() {
         users = new ArrayList<>();
         int[] ids = {1, 2, 3, 4};
+        String[] names = {"João", "Pedro", "Gustavo", "Felipe"};
 
         for (int id : ids) {
-            users.add(new User(id, "User " + id, "username" + id, "123"));
+            users.add(new User(id, names[id - 1], "username" + id, "123"));
         }
 
         return users;
